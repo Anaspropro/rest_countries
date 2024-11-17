@@ -16,7 +16,7 @@ type Country = {
   cca3: string;
 };
 
-export async function fetchData(url: string) {
+async function fetchData(url: string) {
   const response = await fetch(url);
   return await response.json();
 }
