@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { FaRegMoon } from "react-icons/fa";
 import Link from "next/link";
+import Toggle from "./component/toggle";
 
 export const metadata: Metadata = {
   title: "Rest Country",
@@ -13,6 +13,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   return (
     <html lang="en">
       <link rel="shortcut icon" href="sad.png" type="image/x-icon" />
@@ -22,7 +23,7 @@ export default function RootLayout({
             <Link href={"/"} className="text-xl md:text-3xl font-bold">
               <h1 >Where in the world?</h1>
             </Link>
-            <button className="flex items-center gap-2 text-lg font-medium"><FaRegMoon /><span className="hidden md:block">Dark Mode</span></button>
+            <Toggle />
           </div>
         </nav>
         {children}
