@@ -1,42 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React from "react";
 
-type Filter ={
-  name: {
-    common: string
-  },
-  cca3: string
-}
+type FilterProps = {
+  region: string;
+  setRegion: (region: string) => void;
+};
 
-export default function Filter() {
-  const [region, setRegion] = useState(""); // State to store the selected region
-  const [filters, setFilters] = useState([]); // State to store fetched filters
-
-  useEffect(() => {
-    if (!region) return; // Prevent fetching if no region is selected
-
-    const fetchFilter = async () => {
-      const response = await fetch(`https://restcountries.com/v3.1/region/${region}`);
-      const filters = await response.json();
-      setFilters(filters); // Update filters with fetched data
-    };
-
-    fetchFilter();
-  }, [region]);
-
+export default function Filter({ region, setRegion }: FilterProps) {
   return (
     <select
       name="region"
       id="region"
-      onChange={(e) => setRegion(e.target.value)} // Update region on change
+      value={region}
+      onChange={(e) => setRegion(e.target.value)} // Update the region when a new option is selected
+      className="bg-gray-800 text-white p-2 rounded"
     >
       <option value="">Filter by region</option>
-      {filters.map((filter: Filter) => (
-        <option key={filter.cca3} value={filter.name.common}>
-          {filter.name.common}
-        </option>
-      ))}
+      <option value="africa">Africa</option>
+      <option value="europe">Europe</option>
+      <option value="asia">Asia</option>
+      <option value="antarctica">Antarctica</option>
+      <option value="americas">Americas</option>
     </select>
   );
 }
