@@ -1,19 +1,26 @@
 "use client";
 
-import React from "react";
-
 type FilterProps = {
-  region: string;
-  setRegion: (region: string) => void;
+  currentRegion: string; // The currently selected region
 };
 
-export default function Filter({ region, setRegion }: FilterProps) {
+export default function Filter({ currentRegion }: FilterProps) {
+  const handleRegionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const region = event.target.value;
+    const searchParams = new URLSearchParams(window.location.search);
+    if (region) {
+      searchParams.set("region", region);
+    } else {
+      searchParams.delete("region");
+    }
+    window.location.search = searchParams.toString(); // Update URL and reload the page
+  };
+
   return (
     <select
       name="region"
-      id="region"
-      value={region}
-      onChange={(e) => setRegion(e.target.value)} // Update the region when a new option is selected
+      defaultValue={currentRegion}
+      onChange={handleRegionChange}
       className="bg-gray-800 text-white p-2 rounded"
     >
       <option value="">Filter by region</option>
