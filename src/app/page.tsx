@@ -22,11 +22,12 @@ async function fetchData(url: string): Promise<Country[]> {
   return await response.json();
 }
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: { region?: string; search?: string };
-}) {
+export default async function Home(
+  props: {
+    searchParams: Promise<{ region?: string; search?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const { region = "", search = "" } = searchParams;
 
   let url = "https://restcountries.com/v3.1/all";
