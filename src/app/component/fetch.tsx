@@ -29,6 +29,7 @@ export default function Filter({ currentRegion }: FilterProps) {
       <option value="asia">Asia</option>
       <option value="antarctic">Antarctic</option>
       <option value="americas">Americas</option>
+      <option value="oceania">Oceania</option>
     </select>
   );
 }
