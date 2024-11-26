@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Nav from "./component/nav";
+import Toggle from "./component/toggle";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Rest Country",
@@ -17,7 +18,14 @@ export default function RootLayout({
     <html lang="en">
       <link rel="shortcut icon" href="sad.png" type="image/x-icon" />
       <body className="bg-[#202c37] text-white dark:text-gray-900 dark:bg-white flex flex-col item-center">
-        <Nav />
+        <nav className="px-8 md:px-12 py-4 md:py-6 bg-[#2b3945] dark:bg-white w-[100%] items-center shadow fixed">
+          <div className="flex justify-between">
+            <Link href={"/"} className="text-xl md:text-3xl font-bold">
+              <h1 >Where in the world?</h1>
+            </Link>
+            <Toggle />
+          </div>
+        </nav>
         {children}
       </body>
     </html>
