@@ -18,27 +18,31 @@ type Country = {
 };
 
 async function fetchData(url: string): Promise<Country[]> {
-  const response = await fetch(url);    
-  return await response.json();
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return [];
+  }
 }
 
-export default async function Home(
-  props: {
-    searchParams: Promise<{ region?: string; search?: string }>;
-  }
-) {
-  const searchParams = await props.searchParams;
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: { region?: string; search?: string };
+}) {
   const { region = "", search = "" } = searchParams;
 
+  const url = search
+    ? `https://restcountries.com/v3.1/name/${search}`
+    : region
+    ? `https://restcountries.com/v3.1/region/${region}`
+    : "https://restcountries.com/v3.1/all";
 
-  let url = "https://restcountries.com/v3.1/all";
-  if (search) {
-    url = `https://restcountries.com/v3.1/name/${search}`;
-  } else if (region) {
-    url = `https://restcountries.com/v3.1/region/${region}`;
-  }
-
-  // Fetch data from the API
   const countries = await fetchData(url);
 
   return (
@@ -75,7 +79,7 @@ export default async function Home(
       {/* Countries Display */}
       <section className="grid md:grid-cols-3 gap-14">
         {countries.length > 0 ? (
-          countries.map((country: Country) => (
+          countries.map((country) => (
             <Link href={`/${country.cca3}`} key={country.cca3}>
               <div>
                 <article className="rounded-lg shadow-black shadow overflow-hidden">
@@ -86,6 +90,7 @@ export default async function Home(
                     height={100}
                     className="h-52 w-full object-cover"
                     priority
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                   <div className="p-5">
                     <h1 className="text-2xl font-semibold my-4">
