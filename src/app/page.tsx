@@ -18,22 +18,17 @@ type Country = {
 };
 
 async function fetchData(url: string): Promise<Country[]> {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    return [];
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error("Network response not okay");
   }
-}
+  return response.json();
+};
 
 export default async function Home({
   searchParams,
 }: {
-  searchParams: { region?: string; search?: string };
+  searchParams: { region: string; search: string };
 }) {
   const { region = "", search = "" } = searchParams;
 
